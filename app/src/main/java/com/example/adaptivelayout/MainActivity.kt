@@ -6,7 +6,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
-import androidx.compose.material3.windowsizeclass.rememberWindowSizeClass
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -30,6 +29,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.window.core.layout.WindowHeightSizeClass
+import androidx.window.core.layout.WindowWidthSizeClass
 import com.example.adaptivelayout.ui.theme.AdaptiveLayoutTheme
 
 class MainActivity : ComponentActivity() {
@@ -47,7 +48,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun AdaptiveLayoutParent(modifier: Modifier = Modifier){
     val windowInfo = calculateCurrentWindowInfo()
-    val windowSizeClass = rememberWindowSizeClass()
+    val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
     val isNotCompactHeight = windowSizeClass.windowHeightSizeClass != WindowHeightSizeClass.COMPACT
     val isNotCompactWidth = windowSizeClass.windowWidthSizeClass != WindowWidthSizeClass.COMPACT
     if (windowInfo.orientation == Orientation.PORTRAIT){
@@ -60,7 +61,7 @@ fun AdaptiveLayoutParent(modifier: Modifier = Modifier){
 @Composable
 fun PortraitMode(isNotCompact: Boolean){
     if (isNotCompact) {
-        Row(modifier = Modifier.fillMaxSize()) {
+        Column(modifier = Modifier.fillMaxSize()) {
             Spacer(modifier = Modifier.weight(.1f))
             Text(text = "Portrait Mode", modifier = Modifier.weight(1.5f))
         }
@@ -106,12 +107,3 @@ data class WindowInfo(
     val heightDp: Int,
     val orientation: Orientation // Add this line
 )
-
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    AdaptiveLayoutTheme {
-
-    }
-}
