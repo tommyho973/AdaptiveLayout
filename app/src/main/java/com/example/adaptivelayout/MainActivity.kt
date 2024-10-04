@@ -7,6 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.saveable.*
@@ -16,6 +17,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
@@ -52,33 +54,42 @@ fun AdaptiveLayoutParent(modifier: Modifier = Modifier){
     val isNotCompactHeight = windowSizeClass.windowHeightSizeClass != WindowHeightSizeClass.COMPACT
     val isNotCompactWidth = windowSizeClass.windowWidthSizeClass != WindowWidthSizeClass.COMPACT
     if (windowInfo.orientation == Orientation.PORTRAIT){
-        PortraitMode(isNotCompactHeight)
+        PortraitMode(isNotCompactHeight, isNotCompactWidth)
     }
     else{
-        LandscapeMode(isNotCompactHeight)
+        LandscapeMode(isNotCompactHeight, isNotCompactWidth)
     }
 }
 @Composable
-fun PortraitMode(isNotCompact: Boolean){
-    if (isNotCompact) {
-        Column(modifier = Modifier.fillMaxSize()) {
-            Spacer(modifier = Modifier.weight(.1f))
-            Text(text = "Portrait Mode", modifier = Modifier.weight(1.5f))
+fun PortraitMode(isNotCompactHeight: Boolean, isNotCompactWidth: Boolean){
+    if (isNotCompactWidth) {
+        Row(modifier = Modifier.fillMaxSize()) {
+            Box(modifier = Modifier.weight(1f).fillMaxHeight().background(Color.Red))
+            Box(modifier = Modifier.weight(1f).fillMaxHeight().background(Color.Blue))
         }
     }
     else {
         Column(modifier = Modifier.fillMaxSize()) {
-            Spacer(modifier = Modifier.weight(.1f))
-            Text(text = "Portrait Mode", modifier = Modifier.weight(1.5f))
+            Box(modifier = Modifier.weight(1f).fillMaxWidth().background(Color.Red))
+            Box(modifier = Modifier.weight(1f).fillMaxWidth().background(Color.Blue))
         }
     }
 
 }
+
 @Composable
-fun LandscapeMode(isNotCompact: Boolean) {
-    Column(modifier = Modifier.fillMaxSize()) {
-        Spacer(modifier = Modifier.height(10.dp))
-        Text(text = "Landscape Mode")
+fun LandscapeMode(isNotCompactHeight: Boolean, isNotCompactWidth: Boolean) {
+    if (isNotCompactHeight) {
+        Column(modifier = Modifier.fillMaxSize()) {
+            Box(modifier = Modifier.weight(1f).fillMaxWidth().background(Color.Yellow))
+            Box(modifier = Modifier.weight(1f).fillMaxWidth().background(Color.Green))
+        }
+    }
+    else {
+        Row(modifier = Modifier.fillMaxSize()) {
+            Box(modifier = Modifier.weight(1f).fillMaxHeight().background(Color.Yellow))
+            Box(modifier = Modifier.weight(1f).fillMaxHeight().background(Color.Green))
+        }
     }
 }
 
