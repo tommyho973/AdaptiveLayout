@@ -51,44 +51,70 @@ class MainActivity : ComponentActivity() {
 fun AdaptiveLayoutParent(modifier: Modifier = Modifier){
     val windowInfo = calculateCurrentWindowInfo()
     val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
-    val isNotCompactHeight = windowSizeClass.windowHeightSizeClass != WindowHeightSizeClass.COMPACT
-    val isNotCompactWidth = windowSizeClass.windowWidthSizeClass != WindowWidthSizeClass.COMPACT
+    val windowHeight = windowSizeClass.windowHeightSizeClass
+    val windowWidth = windowSizeClass.windowWidthSizeClass
     if (windowInfo.orientation == Orientation.PORTRAIT){
-        PortraitMode(isNotCompactHeight, isNotCompactWidth)
+        Log.d("yarg", "portrait")
+        PortraitMode(windowHeight, windowWidth)
     }
     else{
-        LandscapeMode(isNotCompactHeight, isNotCompactWidth)
+        Log.d("yarg", "landscape")
+        LandscapeMode(windowHeight, windowWidth)
     }
 }
 @Composable
-fun PortraitMode(isNotCompactHeight: Boolean, isNotCompactWidth: Boolean){
-    if (isNotCompactWidth) {
+fun PortraitMode(windowHeight: WindowHeightSizeClass, windowWidth: WindowWidthSizeClass){
+    // COMPACT WIDTH
+    if(windowWidth == WindowWidthSizeClass.COMPACT){
+        Log.d("yarg", "1")
+        Column(modifier = Modifier.fillMaxSize()) {
+            Box(modifier = Modifier.weight(1f).fillMaxWidth().background(Color.White))
+            Box(modifier = Modifier.weight(1f).fillMaxWidth().background(Color.Yellow))
+        }
+    }
+
+    // MEDIUM WIDTH
+    else if(windowWidth == WindowWidthSizeClass.MEDIUM) {
+        Log.d("yarg", "2")
+        Column(modifier = Modifier.fillMaxSize()) {
+            Box(modifier = Modifier.weight(1f).fillMaxWidth().background(Color.White))
+            Box(modifier = Modifier.weight(1f).fillMaxWidth().background(Color.Blue))
+        }
+
+    }
+
+    // EXPANDED WIDTH
+    else{
+        Log.d("yarg", "3")
         Row(modifier = Modifier.fillMaxSize()) {
+            Box(modifier = Modifier.weight(1f).fillMaxHeight().background(Color.White))
             Box(modifier = Modifier.weight(1f).fillMaxHeight().background(Color.Red))
+        }
+    }
+
+}
+
+@Composable
+fun LandscapeMode(windowHeight: WindowHeightSizeClass, windowWidth: WindowWidthSizeClass) {
+    if (windowHeight == WindowHeightSizeClass.EXPANDED) {
+        Log.d("yarg", "4")
+        Column(modifier = Modifier.fillMaxSize()) {
+            Box(modifier = Modifier.weight(1f).fillMaxWidth().background(Color.Black))
+            Box(modifier = Modifier.weight(1f).fillMaxWidth().background(Color.Red))
+        }
+    }
+    else if (windowHeight == WindowHeightSizeClass.MEDIUM) {
+        Log.d("yarg", "5")
+        Row(modifier = Modifier.fillMaxSize()) {
+            Box(modifier = Modifier.weight(1f).fillMaxHeight().background(Color.Black))
             Box(modifier = Modifier.weight(1f).fillMaxHeight().background(Color.Blue))
         }
     }
-    else {
-        Column(modifier = Modifier.fillMaxSize()) {
-            Box(modifier = Modifier.weight(1f).fillMaxWidth().background(Color.Red))
-            Box(modifier = Modifier.weight(1f).fillMaxWidth().background(Color.Blue))
-        }
-    }
-
-}
-
-@Composable
-fun LandscapeMode(isNotCompactHeight: Boolean, isNotCompactWidth: Boolean) {
-    if (isNotCompactHeight) {
-        Column(modifier = Modifier.fillMaxSize()) {
-            Box(modifier = Modifier.weight(1f).fillMaxWidth().background(Color.Yellow))
-            Box(modifier = Modifier.weight(1f).fillMaxWidth().background(Color.Green))
-        }
-    }
-    else {
+    else { // COMPACT
         Row(modifier = Modifier.fillMaxSize()) {
+            Log.d("yarg", "6")
+            Box(modifier = Modifier.weight(1f).fillMaxHeight().background(Color.Black))
             Box(modifier = Modifier.weight(1f).fillMaxHeight().background(Color.Yellow))
-            Box(modifier = Modifier.weight(1f).fillMaxHeight().background(Color.Green))
         }
     }
 }
